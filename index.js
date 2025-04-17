@@ -1,13 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
 import mercadopago from 'mercadopago';
 
 dotenv.config();
 
 const app = express();
-
 
 // Configurar Mercado Pago
 mercadopago.accessToken = process.env.MP_ACCESS_TOKEN;
@@ -34,6 +32,7 @@ app.post('/api/mercadopago', async (req, res) => {
       title: item.nombre,
       quantity: item.cantidad,
       unit_price: item.precio,
+      currency_id: "ARS" // 👈 Aseguramos que sea moneda argentina
     })),
     back_urls: {
       success: "https://example.com/success",
@@ -48,6 +47,9 @@ app.post('/api/mercadopago', async (req, res) => {
     res.json({ init_point: response.body.init_point }); // 👈 Este es el link para el QR
   } catch (error) {
     console.error("Error al crear preferencia:", error);
+    if (error.response) {
+      console.error("Respuesta del error:", error.response.data); // 👈 Extra info del error
+    }
     res.status(500).json({ error: "Error al generar el link de pago" });
   }
 });
