@@ -7,8 +7,10 @@ dotenv.config();
 
 const app = express();
 
-// Configurar Mercado Pago
-mercadopago.configurations.setAccessToken(process.env.MERCADOPAGO_ACCESS_TOKEN);
+// Configuración de MercadoPago sin usar `configurations`
+mercadopago.config({
+  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+});
 
 // Middlewares
 app.use(cors());
@@ -19,7 +21,7 @@ app.get('/', (req, res) => {
   res.send('¡Hola desde el backend!');
 });
 
-// 👉 Ruta para generar QR de pago
+// Ruta para generar QR de pago
 app.post('/api/mercadopago', async (req, res) => {
   const { items } = req.body;
 
@@ -43,7 +45,7 @@ app.post('/api/mercadopago', async (req, res) => {
 
   try {
     const response = await mercadopago.preferences.create(preference);
-    res.json({ init_point: response.body.init_point }); // 👈 Este es el link para el QR
+    res.json({ init_point: response.body.init_point }); // Este es el link para el QR
   } catch (error) {
     console.error("Error al crear preferencia:", error);
     res.status(500).json({ error: "Error al generar el link de pago" });
