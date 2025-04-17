@@ -9,7 +9,7 @@ const app = express();
 
 // Configuración de MercadoPago sin usar `configurations`
 mercadopago.config({
-  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
+  access_token: process.env.MP_ACCESS_TOKEN
 });
 
 // Middlewares
