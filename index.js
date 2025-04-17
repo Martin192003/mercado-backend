@@ -8,9 +8,8 @@ dotenv.config();
 const app = express();
 
 // Configurar Mercado Pago
-mercadopago.configure({
-  access_token: process.env.MP_ACCESS_TOKEN,
-});
+mercadopago.configurations.setAccessToken(process.env.MP_ACCESS_TOKEN); // Deberías usar `MP_ACCESS_TOKEN` directamente
+
 
 // Middlewares
 app.use(cors());
