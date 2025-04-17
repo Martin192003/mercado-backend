@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-console.log('MP_ACCESS_TOKEN:', process.env.MP_ACCESS_TOKEN); // Asegúrate de que se imprima correctamente
 
 import mercadopago from 'mercadopago';
 
@@ -9,10 +8,9 @@ dotenv.config();
 
 const app = express();
 
+
 // Configurar Mercado Pago
-mercadopago.configure({
-  access_token: process.env.MP_ACCESS_TOKEN
-});
+mercadopago.accessToken = process.env.MP_ACCESS_TOKEN;
 
 // Middlewares
 app.use(cors());
