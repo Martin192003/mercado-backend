@@ -7,8 +7,9 @@ dotenv.config();
 
 const app = express();
 
-console.log("MP_ACCESS_TOKEN:", process.env.MP_ACCESS_TOKEN);
-mercadopago.accessToken = process.env.MP_ACCESS_TOKEN;
+mercadopago.configure({
+  access_token: process.env.MP_ACCESS_TOKEN,
+});
 
 console.log("MP_ACCESS_TOKEN:", process.env.MP_ACCESS_TOKEN);
 
