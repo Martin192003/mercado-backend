@@ -1,21 +1,33 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as mercadopago from 'mercadopago'; // 👈 Sigue usando ESModule
+import mercadopago from 'mercadopago';
 
 dotenv.config();
 
 const app = express();
 
-// No necesitas mercadopago.configure() porque ahora lo configuramos directamente en cada llamada
+console.log("MP_ACCESS_TOKEN:", process.env.MP_ACCESS_TOKEN);
 
+// Verificación de configuración de MercadoPago
+if (!process.env.MP_ACCESS_TOKEN) {
+  console.error('Error: El MP_ACCESS_TOKEN no está configurado correctamente');
+  process.exit(1); // Detiene el servidor si no se tiene el token
+}
+
+// Asignar el token de acceso a la configuración de MercadoPago
+mercadopago.accessToken = process.env.MP_ACCESS_TOKEN;
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Rutas
 app.get('/', (req, res) => {
   res.send('¡Hola desde el backend!');
 });
 
+// Ruta para generar QR de pago
 app.post('/api/mercadopago', async (req, res) => {
   const { items } = req.body;
 
@@ -39,10 +51,7 @@ app.post('/api/mercadopago', async (req, res) => {
   };
 
   try {
-    // Aquí pasamos el access_token directamente en la llamada
-    const response = await mercadopago.preferences.create(preference, {
-      access_token: process.env.MP_ACCESS_TOKEN, // Aquí es donde pasamos el access_token directamente
-    });
+    const response = await mercadopago.preferences.create(preference);
     res.json({ init_point: response.body.init_point });
   } catch (error) {
     console.error("Error al crear preferencia:", error);
@@ -53,6 +62,7 @@ app.post('/api/mercadopago', async (req, res) => {
   }
 });
 
+// Puerto de escucha
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
