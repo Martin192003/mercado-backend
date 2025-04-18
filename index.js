@@ -1,29 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as mercadopago from 'mercadopago';
+import * as mercadopago from 'mercadopago'; // 👈 Sigue usando ESModule
 
 dotenv.config();
 
 const app = express();
 
-mercadopago.configure({
-  access_token: process.env.MP_ACCESS_TOKEN,
-});
+// No necesitas mercadopago.configure() porque ahora lo configuramos directamente en cada llamada
 
-console.log("MP_ACCESS_TOKEN:", process.env.MP_ACCESS_TOKEN);
-
-
-// Middlewares
 app.use(cors());
-app.use(express.json()); // Para poder parsear JSON en las solicitudes
+app.use(express.json());
 
-// Rutas
 app.get('/', (req, res) => {
   res.send('¡Hola desde el backend!');
 });
 
-// 👉 Ruta para generar QR de pago
 app.post('/api/mercadopago', async (req, res) => {
   const { items } = req.body;
 
@@ -36,7 +28,7 @@ app.post('/api/mercadopago', async (req, res) => {
       title: item.nombre,
       quantity: item.cantidad,
       unit_price: item.precio,
-      currency_id: "ARS" // 👈 Aseguramos que sea moneda argentina
+      currency_id: "ARS"
     })),
     back_urls: {
       success: "https://example.com/success",
@@ -47,18 +39,20 @@ app.post('/api/mercadopago', async (req, res) => {
   };
 
   try {
-    const response = await mercadopago.preferences.create(preference);
-    res.json({ init_point: response.body.init_point }); // 👈 Este es el link para el QR
+    // Aquí pasamos el access_token directamente en la llamada
+    const response = await mercadopago.preferences.create(preference, {
+      access_token: process.env.MP_ACCESS_TOKEN, // Aquí es donde pasamos el access_token directamente
+    });
+    res.json({ init_point: response.body.init_point });
   } catch (error) {
     console.error("Error al crear preferencia:", error);
     if (error.response) {
-      console.error("Respuesta del error:", error.response.data); // 👈 Extra info del error
+      console.error("Respuesta del error:", error.response.data);
     }
     res.status(500).json({ error: "Error al generar el link de pago" });
   }
 });
 
-// Puerto de escucha
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
