@@ -32,7 +32,7 @@ export function Autoservicio() {
 
   const handleShowQrScreen = async () => {
     try {
-      const response = await fetch("http://localhost:3001/mercadopago/crear-preferencia", {
+      const response = await fetch("https://pruebarender-3tc4.onrender.com/mercadopago/crear-preferencia", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cart }),
@@ -109,7 +109,7 @@ export function Autoservicio() {
 
       console.log('Enviando al backend:', { orderId: newOrderId, amount, ticketNumber });
 
-      const response = await fetch("http://localhost:3001/mercadopagoPoint/payment", {
+      const response = await fetch("https://pruebarender-3tc4.onrender.com/mercadopagoPoint/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId: newOrderId, amount, ticketNumber }),

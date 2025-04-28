@@ -16,7 +16,7 @@ router.post("/crear-preferencia", async (req, res) => {
     try {
         // Realizar la solicitud POST a Mercado Pago
         const response = await axios.post(
-            "https://api.mercadopago.com/checkout/preferences",
+            "https://pruebarender-3tc4.onrender.com/checkout/preferences",
             {
                 items: items.map((item) => ({
                     title: item.nombre,

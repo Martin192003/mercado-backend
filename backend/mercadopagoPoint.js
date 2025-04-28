@@ -18,7 +18,7 @@ async function createPaymentIntent(orderId, amount, ticketNumber) {
       },
     };
     const response = await axios.post(
-      `https://api.mercadopago.com/point/integration-api/devices/${DEVICE_ID}/payment-intents`,
+      `https://pruebarender-3tc4.onrender.com/point/integration-api/devices/${DEVICE_ID}/payment-intents`,
       requestBody,
       {
         headers: {
@@ -36,7 +36,7 @@ async function createPaymentIntent(orderId, amount, ticketNumber) {
 async function checkPaymentIntent(intentId) {
   try {
     const response = await axios.get(
-      `https://api.mercadopago.com/point/integration-api/payment-intents/${intentId}`,
+      `https://pruebarender-3tc4.onrender.com/point/integration-api/payment-intents/${intentId}`,
       {
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
