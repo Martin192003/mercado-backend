@@ -1,0 +1,15 @@
+# Dockerfile.dev
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+# Exponer puerto del servidor de desarrollo de Vite
+EXPOSE 5173
+
+# Iniciar vite en modo dev con HMR
+CMD ["npm", "run", "dev"]

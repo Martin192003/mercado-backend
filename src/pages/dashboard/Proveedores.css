@@ -1,0 +1,48 @@
+/* Proveedores.module.css */
+
+/* Estilos para los ListItems */
+.list-item {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .list-item-selected {
+    background-color: #bfdbfe !important; /* Azul claro */
+    color: #1d4ed8 !important; /* Azul oscuro */
+    font-weight: bold !important;
+  }
+  
+  .list-item-hover:hover {
+    background-color: #f3f4f6 !important; /* Gris claro */
+  }
+  
+  /* Estilos para los estados */
+  .text-success {
+    color: #16a34a; /* text-green-600 */
+  }
+  
+  .text-error {
+    color: #dc2626; /* text-red-600 */
+  }
+  
+  /* Estilos para la tabla */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb; /* border-gray-200 */
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #d1d5db; /* border-gray-300 */
+    padding: 0.5rem 1rem;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f3f4f6; /* bg-gray-100 */
+  }
+  
+  .table-row-hover:hover {
+    background-color: #f9fafb; /* hover:bg-gray-50 */
+  }
