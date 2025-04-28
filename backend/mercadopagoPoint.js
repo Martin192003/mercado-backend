@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const { supabase } = require('../src/supaBaseClient');
+const { supabase } = require('./supaBaseClient');
 
 // Configuración de Mercado Pago
 const ACCESS_TOKEN = 'APP_USR-5406750785232016-042510-1aa931dc74f881a1605999834aa9ccdb-488524606';
